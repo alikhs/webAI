@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Pemesanan Makanan</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#orderForm").on("submit", function(event){
+                event.preventDefault();
+                
+                var formData = $(this).serialize();
+                
+                $.ajax({
+                    url: "process_order.php",
+                    type: "POST",
+                    data: formData,
+                    success: function(data){
+                        $("#result").html(data);
+                    },
+                    error: function(){
+                        $("#result").html("Terjadi kesalahan saat memproses pemesanan.");
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Form Pemesanan Makanan</h1>
+    <form id="orderForm">
+        <table border="0">
+            <tr>
+                <td>Nama Pemesan</td>
+                <td>: <input name="nama" type="text" required></td>
+            </tr>
+            <tr>
+                <td>Jenis Makanan</td>
+                <td>:
+                    <select name="jenis_makanan" required>
+                        <option value="">Pilih Makanan</option>
+                        <option value="Nasi Goreng">Nasi Goreng</option>
+                        <option value="Mie Goreng">Mie Goreng</option>
+                        <option value="Ayam Goreng">Ayam Goreng</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Jumlah</td>
+                <td>: <input name="jumlah" type="number" required></td>
+            </tr>
+            <tr>
+                <td>Alamat Pengiriman</td>
+                <td>: <textarea name="alamat" rows="4" required></textarea></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" value="Pesan">
+                    <input type="reset" value="Ulang">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <div id="result"></div>
+</body>
+</html>
